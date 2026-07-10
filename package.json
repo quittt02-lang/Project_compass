@@ -4,7 +4,8 @@
   "description": "The work shows all the data about users who have recorded their data in the diary",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mongoose": "^9.7.4"
   },
   "author": "",
   "type": "commonjs",

@@ -1,24 +1,27 @@
-const PORT = process.env.PORT || 5000;
-const Application = require('./Body_js/application');
-const userRouter = require('./src/user_router');
-const workjson = require('./Body_js/workjson');
-const parsedUrl = require('./Body_js/parse_urk');
+const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const app = new Application();
+const recordRouter = require('./src/user_router/user_router');
 
-app.use(workjson);
+const PORT = process.env.PORT || 5000;
+const app = express();
 
-app.use(parsedUrl('http://localhost:5000'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.addRouter(userRouter);
+app.use(recordRouter);
 
 const start = async () => {
     try {
-        await mongoose.connect('mongodb+srv://admin:12345@cluster0.xsyuasu.mongodb.net/?appName=Cluster0') 
-        app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`))
-    } catch(e){
-        console.log(e)
+        await mongoose.connect(process.env.mongo_url);
+        
+        app.listen(PORT, () => {
+            console.log(`Server started on PORT ${PORT}`);
+        });
+    } catch (e) {
+        console.log('Error during startup:', e);
     }
-}
-start()
+};
+
+start();

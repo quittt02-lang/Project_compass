@@ -4,6 +4,7 @@
   "description": "The work shows all the data about users who have recorded their data in the diary",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mongoose": "^9.7.4"
   },

@@ -1,4 +1,4 @@
-module.exports = class Router {
+/*module.exports = class Router {
     constructor(){
         this.endpoints = {}
     }
@@ -13,7 +13,7 @@ module.exports = class Router {
         }
         endpoints[method] = handler
     }
-    get(path, handler) {
+    get(path, handler) {       
         this.request('GET', path, handler);
     }
      post(path, handler) {
@@ -25,4 +25,4 @@ module.exports = class Router {
      delete(path, handler) {
         this.request('DELETE', path, handler);
     }
-}
+}*/

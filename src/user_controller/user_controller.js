@@ -1,4 +1,5 @@
 const Record = require('../user_module/user_module');
+const crypto = require('crypto');
 
 const getRecords = async (req, res) => {
     try {
@@ -39,7 +40,19 @@ const getRecordByToken = async (req, res) => {
 
 const createRecord = async (req, res) => {
     try {
-        const newRecord = await Record.create(req.body);
+        const recordData = { ...req.body };
+        
+        if (!recordData.token) {
+            recordData.token = 'tok_' + crypto.randomBytes(4).toString('hex');
+        }
+        if (!recordData.date) {
+            recordData.date = new Date().toISOString().slice(0, 10);
+        }
+        if (!recordData.filter) {
+            recordData.filter = 'Active';
+        }
+
+        const newRecord = await Record.create(recordData);
         res.status(201).json({
             status: 'success',
             data: { record: newRecord }
@@ -56,7 +69,8 @@ const updateRecord = async (req, res) => {
     try {
         const record = await Record.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
-            runValidators: true
+            runValidators: true,
+            returnDocument: 'after'
         });
         if (!record) {
             return res.status(404).json({

@@ -1,4 +1,3 @@
-//const Router = require('../Body_js/body');
 const express = require('express');
 const bodyParser = require('body-parser');
 const recordController = require('../user_controller/user_controller');

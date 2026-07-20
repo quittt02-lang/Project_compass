@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Управление записями</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    
+    <div id="listView">
+      <h1>Список пользователей</h1>
+      <ul id="recordsList" class="records-list"></ul>
+      <button id="openAddViewBtn" type="button" class="btn btn-primary btn-full">Добавить пользователя</button>
+    </div>
+
+    <div id="addView" style="display: none;">
+      <button id="backFromAddBtn" type="button" class="btn btn-secondary">← Назад к списку</button>
+      <form id="createForm" class="card create-card">
+        <h3>Добавить пользователя</h3>
+        <div class="form-group">
+          <input type="text" id="newAuthorInput" placeholder="Имя пользователя / Автор" required>
+          <input type="text" id="newTitleInput" placeholder="Заголовок" required>
+          <input type="text" id="newContentInput" placeholder="Описание / Контент">
+          <button type="submit" class="btn btn-primary">Добавить</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="detailView" style="display: none;">
+      <button id="backButton" type="button" class="btn btn-secondary">← Назад к списку</button>
+      
+      <div class="card detail-card">
+        <h2 id="authorName"></h2>
+        <p><strong>Заголовок:</strong> <span id="recordTitle"></span></p>
+        <p><strong>Контент:</strong> <span id="modalContent"></span></p>
+        <button id="modalEditButton" class="btn btn-outline">Изменить</button>
+      </div>
+
+      <form id="editForm" class="card edit-card" style="display:none;">
+        <h3>Редактирование</h3>
+        <input type="text" id="editTitleInput" placeholder="Новый заголовок">
+        <input type="text" id="editContentInput" placeholder="Новый контент">
+        <button type="button" id="saveEditButton" class="btn btn-primary">Сохранить</button>
+      </form>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

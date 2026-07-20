@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 require('dotenv').config();
 
 const recordRouter = require('./src/user_router/user_router');
@@ -9,6 +10,12 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, 'src', 'Body_js', 'webapp')));
+
+app.get('/', (req, res ) => {
+    res.sendFile(path.join(__dirname, 'src', 'Body_js', 'webapp'))
+})
 
 app.use(recordRouter);
 

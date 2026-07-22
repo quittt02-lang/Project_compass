@@ -47,8 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const newRecord = {
         name: newAuthorInput.value.trim(),
         title: newTitleInput.value.trim(),
-        content: newContentInput.value.trim(),
-        text: newContentInput.value.trim()
+        content: newContentInput.value.trim()
       };
 
       try {
@@ -71,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (modalEditButton) {
     modalEditButton.onclick = () => {
       editTitleInput.value = currentRecord.title || '';
-      editContentInput.value = currentRecord.content || currentRecord.text || '';
+      editContentInput.value = currentRecord.content || '';
       editForm.style.display = 'block';
     };
   }
@@ -86,8 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const response = await axios.put(`/records/${currentRecord._id}`, {
           title: newTitle,
-          content: newContent,
-          text: newContent
+          content: newContent
         });
         
         const updatedRecord = response.data.data.record;
@@ -170,7 +168,7 @@ function renderDetailDOM(record) {
   currentRecord = record;
   authorName.textContent = record.name || record.author || record.user || 'Неизвестно';
   recordTitle.textContent = record.title || 'Без названия';
-  modalContent.textContent = record.content || record.text || '';
+  modalContent.textContent = record.content || '';
   
   editForm.style.display = 'none';
   listView.style.display = 'none';

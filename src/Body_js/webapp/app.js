@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  if (createForm) {
+if (createForm) {
     createForm.onsubmit = async (event) => {
       event.preventDefault();
       
@@ -51,14 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
         title: newTitleInput.value.trim(),
         content: newContentInput.value.trim()
       };
-
+      
       try {
         await axios.post('/records', newRecord);
         createForm.reset();
-        await fetchRecords();
         history.back();
+        await fetchRecords();
       } catch (error) {
-        console.error('Ошибка при создании пользователя:', error);
+        console.error('Ошибка при создании записи:', error);
       }
     };
   }

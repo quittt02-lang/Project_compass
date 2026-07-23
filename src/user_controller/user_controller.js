@@ -1,46 +1,46 @@
 const Record = require('../user_module/user_module');
 const crypto = require('crypto');
 
-const getRecords = async (req, res) => {
+const getRecords = async (request, response) => {
     try {
         const records = await Record.find();
-        res.status(200).json({
+        response.status(200).json({
             status: 'success',
             results: records.length,
             data: { records }
         });
-    } catch (err) {
-        res.status(404).json({
+    } catch (error) {
+        response.status(404).json({
             status: 'fail',
-            message: err.message
+            message: error.message
         });
     }
 };
 
-const getRecordByToken = async (req, res) => {
+const getRecordByToken = async (request, response) => {
     try {
-        const record = await Record.findOne({ token: req.params.token });
+        const record = await Record.findOne({ token: request.params.token });
         if (!record) {
-            return res.status(404).json({
+            return response.status(404).json({
                 status: 'fail',
                 message: 'Record not found'
             });
         }
-        res.status(200).json({
+        response.status(200).json({
             status: 'success',
             data: { record }
         });
-    } catch (err) {
-        res.status(400).json({
+    } catch (error) {
+        response.status(400).json({
             status: 'fail',
-            message: err.message
+            message: error.message
         });
     }
 };
 
-const createRecord = async (req, res) => {
+const createRecord = async (request, response) => {
     try {
-        const recordData = { ...req.body };
+        const recordData = { ...request.body };
         
         if (!recordData.token) {
             recordData.token = 'tok_' + crypto.randomBytes(4).toString('hex');
@@ -53,39 +53,60 @@ const createRecord = async (req, res) => {
         }
 
         const newRecord = await Record.create(recordData);
-        res.status(201).json({
+        response.status(201).json({
             status: 'success',
             data: { record: newRecord }
         });
-    } catch (err) {
-        res.status(400).json({
+    } catch (error) {
+        response.status(400).json({
             status: 'fail',
-            message: err.message
+            message: error.message
         });
     }
 };
 
-const updateRecord = async (req, res) => {
+const updateRecord = async (request, response) => {
     try {
-        const record = await Record.findByIdAndUpdate(req.params.id, req.body, {
+        const record = await Record.findByIdAndUpdate(request.params.id, request.body, {
             new: true,
             runValidators: true,
             returnDocument: 'after'
         });
         if (!record) {
-            return res.status(404).json({
+            return response.status(404).json({
                 status: 'fail',
                 message: 'Record not found'
             });
         }
-        res.status(200).json({
+        response.status(200).json({
             status: 'success',
             data: { record }
         });
-    } catch (err) {
-        res.status(400).json({
+    } catch (error) {
+        response.status(400).json({
             status: 'fail',
-            message: err.message
+            message: error.message
+        });
+    }
+};
+
+const deleteRecord = async (request, response) => {
+    try {
+        const record = await Record.findByIdAndDelete(request.params.id);
+        if (!record) {
+            return response.status(404).json({
+                status: 'fail',
+                message: 'Record not found'
+            });
+        }
+        response.status(200).json({
+            status: 'success',
+            message: 'Record deleted successfully'
+        });
+    } catch (error) {
+        response.status(400).json({
+            status: 'fail',
+            message: error.message
         });
     }
 };
@@ -94,5 +115,6 @@ module.exports = {
     getRecords,
     getRecordByToken,
     createRecord,
-    updateRecord
+    updateRecord,
+    deleteRecord
 };

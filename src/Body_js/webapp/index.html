@@ -9,41 +9,47 @@
 </head>
 <body>
   <div class="container">
-    
+
     <div id="listView">
-      <h1>Список пользователей</h1>
+      <h1 style="margin-bottom: 20px;">Список пользователей</h1>
       <ul id="recordsList" class="records-list"></ul>
-      <button id="openAddViewBtn" type="button" class="btn btn-primary btn-full">Добавить пользователя</button>
+      <button id="openAddViewBtn" type="button" class="btn btn-primary btn-full" style="margin-top: 15px;">Добавить пользователя</button>
     </div>
 
     <div id="addView" style="display: none;">
-      <button id="backFromAddBtn" type="button" class="btn btn-secondary">← Назад к списку</button>
+      <button id="backFromAddBtn" type="button" class="btn btn-secondary" style="margin-bottom: 15px;">← Назад к списку</button>
       <form id="createForm" class="card create-card">
         <h3>Добавить пользователя</h3>
         <div class="form-group">
           <input type="text" id="newAuthorInput" placeholder="Имя пользователя / Автор" required>
           <input type="text" id="newTitleInput" placeholder="Заголовок" required>
-          <input type="text" id="newContentInput" placeholder="Описание / Контент">
+          <input type="text" id="newContentInput" placeholder="Описание / Контент" maxlength="100">
           <button type="submit" class="btn btn-primary">Добавить</button>
         </div>
       </form>
     </div>
 
     <div id="detailView" style="display: none;">
-      <button id="backButton" type="button" class="btn btn-secondary">← Назад к списку</button>
+      <button id="backButton" type="button" class="btn btn-secondary" style="margin-bottom: 15px;">← Назад к списку</button>
       
       <div class="card detail-card">
         <h2 id="authorName"></h2>
         <p><strong>Заголовок:</strong> <span id="recordTitle"></span></p>
         <p><strong>Контент:</strong> <span id="modalContent"></span></p>
-        <button id="modalEditButton" class="btn btn-outline">Изменить</button>
+        
+        <div class="card-actions" style="margin-top: 15px;">
+          <button id="modalEditButton" class="btn btn-outline">Изменить</button>
+          <button id="deleteRecordBtn" class="btn btn-danger">Удалить</button>
+        </div>
       </div>
 
-      <form id="editForm" class="card edit-card" style="display:none;">
+      <form id="editForm" class="card edit-card" style="display:none; margin-top: 15px;">
         <h3>Редактирование</h3>
-        <input type="text" id="editTitleInput" placeholder="Новый заголовок">
-        <input type="text" id="editContentInput" placeholder="Новый контент">
-        <button type="button" id="saveEditButton" class="btn btn-primary">Сохранить</button>
+        <div class="form-group">
+          <input type="text" id="editTitleInput" placeholder="Новый заголовок">
+          <input type="text" id="editContentInput" placeholder="Новый контент" maxlength="100">
+          <button type="button" id="saveEditButton" class="btn btn-primary">Сохранить</button>
+        </div>
       </form>
     </div>
 

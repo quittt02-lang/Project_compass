@@ -11,6 +11,8 @@ const authorName = document.getElementById('authorName');
 const recordTitle = document.getElementById('recordTitle');
 const modalContent = document.getElementById('modalContent');
 const modalEditButton = document.getElementById('modalEditButton');
+const deleteRecordBtn = document.getElementById('deleteRecordBtn');
+
 const editForm = document.getElementById('editForm');
 const editTitleInput = document.getElementById('editTitleInput');
 const editContentInput = document.getElementById('editContentInput');
@@ -41,8 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (createForm) {
-    createForm.onsubmit = async (e) => {
-      e.preventDefault();
+    createForm.onsubmit = async (event) => {
+      event.preventDefault();
       
       const newRecord = {
         name: newAuthorInput.value.trim(),
@@ -55,8 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
         createForm.reset();
         await fetchRecords();
         history.back();
-      } catch (err) {
-        console.error('Ошибка при создании пользователя:', err);
+      } catch (error) {
+        console.error('Ошибка при создании пользователя:', error);
       }
     };
   }
@@ -90,16 +92,35 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const updatedRecord = response.data.data.record;
         
-        const index = allRecords.findIndex(r => r._id === currentRecord._id);
-        if (index !== -1) {
-          allRecords[index] = updatedRecord;
+        const recordIndex = allRecords.findIndex(record => record._id === currentRecord._id);
+        if (recordIndex !== -1) {
+          allRecords[recordIndex] = updatedRecord;
           renderRecords(allRecords);
           renderDetailDOM(updatedRecord);
         }
         
         history.back();
-      } catch (err) {
-        console.error('Ошибка при обновлении записи:', err);
+      } catch (error) {
+        console.error('Ошибка при обновлении записи:', error);
+      }
+    };
+  }
+
+  if (deleteRecordBtn) {
+    deleteRecordBtn.onclick = async () => {
+      if (!currentRecord) return;
+
+      if (!confirm('Вы уверены, что хотите удалить эту запись?')) return;
+
+      try {
+        await axios.delete(`/records/${currentRecord._id}`);
+
+        allRecords = allRecords.filter(record => record._id !== currentRecord._id);
+        renderRecords(allRecords);
+
+        history.back();
+      } catch (error) {
+        console.error('Ошибка при удалении записи:', error);
       }
     };
   }
@@ -108,9 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('popstate', (event) => {
   if (event.state) {
     if (event.state.recordId) {
-      const record = allRecords.find(r => r._id === event.state.recordId);
-      if (record) {
-        renderDetailDOM(record);
+      const foundRecord = allRecords.find(record => record._id === event.state.recordId);
+      if (foundRecord) {
+        renderDetailDOM(foundRecord);
         return;
       }
     } else if (event.state.view === 'add') {
@@ -131,8 +152,8 @@ async function fetchRecords() {
       allRecords = recordsData;
       
       if (history.state?.recordId) {
-        const record = allRecords.find(r => r._id === history.state.recordId);
-        if (record) renderDetailDOM(record);
+        const foundRecord = allRecords.find(record => record._id === history.state.recordId);
+        if (foundRecord) renderDetailDOM(foundRecord);
         else renderListDOM();
       } else if (history.state?.view === 'add') {
         renderAddDOM();
@@ -141,21 +162,21 @@ async function fetchRecords() {
         renderListDOM();
       }
     }
-  } catch (err) {
-    console.error('Ошибка при получении записей:', err);
+  } catch (error) {
+    console.error('Ошибка при получении записей:', error);
   }
 }
 
 function renderRecords(records) {
   recordsList.innerHTML = '';
   records.forEach(record => {
-    const li = document.createElement('li');
+    const listItem = document.createElement('li');
     const author = record.name || record.author || record.user || 'Неизвестно';
     const title = record.title || 'Без названия';
     
-    li.innerHTML = `<strong>${author}</strong> <small>${title}</small>`;
-    li.onclick = () => openRecordDetail(record);
-    recordsList.appendChild(li);
+    listItem.innerHTML = `<strong>${author}</strong> <small>${title}</small>`;
+    listItem.onclick = () => openRecordDetail(record);
+    recordsList.appendChild(listItem);
   });
 }
 

@@ -103,7 +103,6 @@ textarea:focus {
   color: var(--text-main);
 }
 
-/* Кнопка "Изменить" (Контурная -> Заливка главным цветом сайта) */
 .btn-outline {
   background-color: transparent;
   border: 1px solid var(--primary-color);
@@ -115,7 +114,6 @@ textarea:focus {
   color: #ffffff;
 }
 
-/* Кнопка "Удалить" (Контурная -> Заливка красным цветом) */
 .btn-danger {
   background-color: transparent;
   border: 1px solid var(--danger-color);
@@ -133,7 +131,6 @@ textarea:focus {
   padding: 12px 18px;
 }
 
-/* Расположение кнопок по противоположным углам */
 .card-actions {
   display: flex;
   justify-content: space-between;
